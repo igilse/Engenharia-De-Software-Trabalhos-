@@ -1,6 +1,7 @@
 var screen = document.querySelector('#screen');
 var btn = document.querySelectorAll('.btn');
-
+let history = [];
+let historyList = document.getElementById('historyList');
 
 for (item of btn) {
     item.addEventListener('click', (e) => {
@@ -87,3 +88,23 @@ function backspc() {
     screen.value = screen.value.substr(0, screen.value.length - 1);
 }
 
+function updateHistory(calculation) {
+    history.push(calculation);
+    renderHistory();
+}
+
+function renderHistory() {
+    historyList.innerHTML = '';
+    history.forEach((calculation) => {
+        let li = document.createElement('li');
+        li.textContent = calculation;
+        historyList.appendChild(li);
+    });
+}
+
+document.getElementById('eval').addEventListener('click', function() {
+    let expression = screen.value;
+    let result = eval(expression);
+    let calculation = expression + ' = ' + result;
+    updateHistory(calculation);
+});
